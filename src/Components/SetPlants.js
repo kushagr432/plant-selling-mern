@@ -147,7 +147,7 @@ function AddPlants() {
 
                 const token = localStorage.getItem('token'); // Assuming you store the token in localStorage
 
-                const res = await fetch(`http://localhost:8000/api/v2/nursery/plants`, {
+                const res = await fetch(`https://plant-backend-dusky.vercel.app/api/v2/nursery/plants`, {
                     method: "POST",
                     headers: {
                         'Authorization': `Bearer ${token}`

@@ -23,7 +23,7 @@ function Signup() {
         try {
             e.preventDefault();
 
-            const response = await fetch(`http://localhost:8000/api/v2/auth/sign-up`, {
+            const response = await fetch(`https://plant-backend-dusky.vercel.app/api/v2/auth/sign-up`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

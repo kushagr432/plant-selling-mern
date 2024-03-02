@@ -75,7 +75,7 @@ function NurseryProfile() {
             data.append(e.target.name, e.target.files[0]);
             data.append("nurserId", nursery._id);
 
-            const res = await fetch(`http://localhost:8000/api/v2/nursery/profile/images`, {
+            const res = await fetch(`https://plant-backend-dusky.vercel.app/api/v2/nursery/profile/images`, {
                 method: "POST",
                 body: data,
                 credentials: 'include'
