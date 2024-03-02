@@ -1,5 +1,5 @@
 const handelDataFetch = async ({ path, method, body = null }, setShowAnimation) => {
-    const apiUrl = 'https://plant-backend-dusky.vercel.app/' + path;
+    const apiUrl = 'https://plant-backend-dusky.vercel.app' + path;
     const token = localStorage.getItem('token');
 
     try {
