@@ -21,13 +21,13 @@ function Login() {
 
             setShowAnimation({ type: "ANIMATION", showAnimation: true });
 
-            const res = await fetch('https://plant-backend-dusky.vercel.app/api/v2/auth/sign-in', {
+            const res = await fetch('http://localhost:8000/api/v2/auth/sign-in', {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json',
+                    'Content-Type': 'application/json ',
                     'Accept': 'application/json'
                 },
-                mode: 'no-cors',
+            
                 body: JSON.stringify(userFormData)
             });
 
