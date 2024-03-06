@@ -1,21 +1,22 @@
+import axios from 'axios'; // Import Axios
 import React, { useContext, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Rating } from 'react-simple-star-rating';
 import { UserContext } from '../App';
 import noPlantsImage from '../Asset/img/noDataFound.jpg';
-import handelDataFetch from '../utils/handelDataFetch';
-
 
 const Products = () => {
     document.title = "Plant Selling Website";
     
     const { setShowAnimation } = useContext(UserContext);
-
     const [products, setProducts] = useState([]);
 
     const getProductsData = async () => {
         try {
-            const result = await handelDataFetch({ path: '/api/v2/products/plants', method: "GET" }, setShowAnimation);
+            setShowAnimation({ type: "ANIMATION", showAnimation: true });
+
+            const response = await axios.get('https://plant-backend-dusky.vercel.app/api/v2/products/plants');
+            const result = response.data;
 
             if (result.status) {
                 setProducts(result.result);
@@ -24,30 +25,33 @@ const Products = () => {
             }
         } catch (error) {
             console.error(error);
+        } finally {
+            setShowAnimation({ type: "ANIMATION", showAnimation: false });
         }
-
     }
 
     const getProductsDataByCategory = async (category) => {
         try {
-            const result = await handelDataFetch({ path: `/api/v2/products/plantsByCategory/${category}`, method: "GET" }, setShowAnimation);
+            setShowAnimation({ type: "ANIMATION", showAnimation: true });
+
+            const response = await axios.get(`https://plant-backend-dusky.vercel.app/api/v2/products/plantsByCategory/${category}`);
+            const result = response.data;
 
             if (result.status) {
                 setProducts(result.result);
             } else {
-                throw new Error(result.message)
+                throw new Error(result.message);
             }
         } catch (error) {
             console.error(error);
+        } finally {
+            setShowAnimation({ type: "ANIMATION", showAnimation: false });
         }
-
     }
 
     useEffect(() => {
         getProductsData();
     }, []);
-
-
 
     return (
         <div className="container product-container mb-4 mb-md-5">
@@ -56,16 +60,13 @@ const Products = () => {
             </div>
             <div className="p-2 d-flex flex-wrap justify-content-center align-item-center">
                 <button onClick={getProductsData} className="btn btn-secondary m-1">All</button>
-
                 <button onClick={() => getProductsDataByCategory("flowering-plants")} className="btn btn-secondary m-1">Flowering Plants</button>
                 <button onClick={() => getProductsDataByCategory("medicinal-plants")} className="btn btn-secondary m-1">Medicinal Plants</button>
                 <button onClick={() => getProductsDataByCategory("ornamental-plants")} className="btn btn-secondary m-1">Ornamental Plants</button>
                 <button onClick={() => getProductsDataByCategory("indoor-plants")} className="btn btn-secondary m-1">Indoor Plants</button>
             </div>
             <div className="product-content px-2">
-                {
-                    products &&
-
+                {products &&
                     products.map((elem) => {
                         return (
                             <div key={elem.id} className="px-1 d-flex center-text overflow-hidden">
@@ -80,21 +81,16 @@ const Products = () => {
                                             <p className="card-text">{elem.category}</p>
                                             <p className="text-muted" style={{ fontSize: "14px", margin: "0" }}>ratings</p>
                                             <p className="card-text"><Rating initialValue={3 + Math.random() * 2} readonly={true} size={20} allowFraction="true" /> <small style={{ position: "relative", top: "4px" }}>{elem.noOfRatings}</small></p>
-
                                         </div>
                                     </div>
                                 </Link>
                             </div>
                         )
                     })
-
                 }
-
             </div>
             <div className="w-100">
-                {
-                    products.length === 0 &&
-
+                {products.length === 0 &&
                     <div className="d-flex justify-content-center">
                         <div className=''>
                             <div className="row">
@@ -116,4 +112,4 @@ const Products = () => {
     )
 }
 
-export default Products
+export default Products;
